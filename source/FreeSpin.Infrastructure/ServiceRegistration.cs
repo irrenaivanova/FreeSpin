@@ -22,6 +22,8 @@ public static class ServiceRegistration
 		services.AddTransient<IDateTime, DateTimeService>();
 		services.AddTransient<FreeSpinDbContextSeeder>();
 		services.AddTransient<ISeeder, FreeSpinDbContextSeeder>();
+		services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+		services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 		return services;
 	}
