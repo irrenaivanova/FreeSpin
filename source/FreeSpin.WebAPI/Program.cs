@@ -1,12 +1,12 @@
-using FreeSpin.Application.Common.Interfaces;
+using FreeSpin.Application;
 using FreeSpin.Infrastructure;
 using FreeSpin.Infrastructure.Persistence;
 using FreeSpin.Infrastructure.Persistence.Seeding.Common;
-using FreeSpin.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
