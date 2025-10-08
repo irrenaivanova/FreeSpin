@@ -1,15 +1,28 @@
+using FreeSpin.Application.Common.Interfaces;
+using FreeSpin.Infrastructure;
+using FreeSpin.Infrastructure.Persistence;
+using FreeSpin.Infrastructure.Persistence.Seeding.Common;
+using FreeSpin.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+	var dbContext = scope.ServiceProvider.GetRequiredService<FreeSpinDbContext>();
+	await dbContext.Database.MigrateAsync();
+
+	var seeder = scope.ServiceProvider.GetRequiredService<FreeSpinDbContextSeeder>();
+	await seeder.SeedAsync(dbContext, scope.ServiceProvider);
+}
+
+
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();

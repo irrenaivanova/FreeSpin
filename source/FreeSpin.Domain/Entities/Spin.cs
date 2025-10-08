@@ -9,7 +9,9 @@ public class Spin : BaseModel<string>
 		Id = Guid.NewGuid().ToString();
 	}
 
-	public decimal Balance { get; set; }
+	public decimal Reward { get; set; }
 
+	public int UserId { get; set; }
+	public int CampaignId { get; set; }
 	public UserCampaign UserCampaign { get; set; } = default!;
 }
