@@ -19,5 +19,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
 		builder
 			.HasIndex(x => x.UserName).IsUnique();
+
+		builder
+			.Property(x => x.RowVersion)
+			.IsRowVersion()
+			.IsConcurrencyToken();
 	}
 }

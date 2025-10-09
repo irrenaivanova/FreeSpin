@@ -1,4 +1,6 @@
 ﻿using FreeSpin.Application.Common.Interfaces;
+using FreeSpin.Application.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreeSpin.Infrastructure.Persistence;
 
@@ -11,9 +13,24 @@ public class UnitOfWork : IUnitOfWork
 		this.context = context;
 	}
 
-	public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-			=> this.context.SaveChangesAsync(cancellationToken);
+	public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			await context.SaveChangesAsync(cancellationToken);
+		}
+		catch (DbUpdateConcurrencyException ex)
+		{
+			var entry = ex.Entries.FirstOrDefault();
+			if (entry != null)
+			{
+				var entityType = entry.Entity.GetType();
+				throw new OptimisticConcurrencyException(entityType, "Concurrency conflict detected.");
+			}
 
+			throw new OptimisticConcurrencyException(typeof(object), "Concurrency conflict detected.");
+		}
+	}
 	public void Dispose()
 	{
 		this.context.Dispose();

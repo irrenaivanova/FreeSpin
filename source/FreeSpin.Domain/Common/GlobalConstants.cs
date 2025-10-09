@@ -9,4 +9,8 @@ public static class GlobalConstants
 	public const int MaxSpins = 5;
 
 	public const decimal StartBalance = 100m;
+
+	public const decimal SpinMaxReward = 50m;
+
+	public const decimal SpinRewardOffset = 5m;
 }

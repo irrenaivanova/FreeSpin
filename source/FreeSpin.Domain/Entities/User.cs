@@ -16,4 +16,6 @@ public class User : BaseModel<int>
 	public int Age { get; set; }
 
 	public IList<UserCampaign> UserCampaigns { get; set; }
+
+	public byte[] RowVersion { get; set; } = default!;
 }

@@ -19,7 +19,7 @@ public class UserCampaign : IAuditableEntity
 
 	public IList<Spin> Spins { get; set; }
 
-	public int SpinCount => Spins.Count;
+	public int CurrentSpinCount { get; set; }
 
 	public DateTime CreatedOn { get; set; }
 

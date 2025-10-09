@@ -15,7 +15,10 @@ public static class ResultExtension
 		return result.ErrorType switch
 		{
 			ErrorType.NotFound => new NotFoundObjectResult(new { error = result.Error }),
-			ErrorType.Forbidden => new ForbidResult(),
+			ErrorType.Forbidden => new ObjectResult(new { error = result.Error })
+			{
+				StatusCode = StatusCodes.Status403Forbidden
+			},
 			ErrorType.Validation => new BadRequestObjectResult(new { error = result.Error }),
 			_ => new ObjectResult(new { error = result.Error })
 			{

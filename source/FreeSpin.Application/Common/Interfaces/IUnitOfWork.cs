@@ -2,5 +2,5 @@
 
 public interface IUnitOfWork : IDisposable
 {
-	Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+	Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }
