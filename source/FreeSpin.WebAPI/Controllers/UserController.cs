@@ -1,7 +1,5 @@
 ﻿using FreeSpin.Application.Common.Interfaces;
-using FreeSpin.Application.Services;
-using FreeSpin.WebAPI.DTOs.Requests;
-using FreeSpin.WebAPI.DTOs.Responses;
+using FreeSpin.Application.Users.Models;
 using FreeSpin.WebAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,16 +19,13 @@ public class UserController : ControllerBase
 	[HttpPost]
 	public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
 	{
-		var result = await this.userService.CreateUserAsync(request.UserName, request.Age);
+		var result = await this.userService.CreateUserAsync(request);
 		
 		if (!result.IsSuccess)
-			return result.ToActionResult();
-
-		var response = new CreateUserResponse
 		{
-			UserName = result.Value!.UserName,
-			Balance = result.Value.Balance,
-		};
-		return Ok(response);
+			return result.ToActionResult();
+		}
+			
+		return Ok(result.Value);
 	}
 }

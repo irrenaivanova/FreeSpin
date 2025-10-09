@@ -1,4 +1,4 @@
-﻿namespace FreeSpin.WebAPI.DTOs.Requests;
+﻿namespace FreeSpin.Application.Users.Models;
 
 public class CreateUserRequest
 {

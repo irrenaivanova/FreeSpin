@@ -1,4 +1,4 @@
-﻿namespace FreeSpin.WebAPI.DTOs.Responses;
+﻿namespace FreeSpin.Application.Campaigns.Models;
 
 public class CampaignInfoResponse
 {

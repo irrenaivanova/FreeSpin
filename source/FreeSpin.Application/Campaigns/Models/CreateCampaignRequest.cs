@@ -1,4 +1,4 @@
-﻿namespace FreeSpin.WebAPI.DTOs.Requests;
+﻿namespace FreeSpin.Application.Campaigns.Models;
 
 public class CreateCampaignRequest
 {

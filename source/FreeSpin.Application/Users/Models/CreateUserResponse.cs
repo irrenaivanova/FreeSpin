@@ -1,4 +1,4 @@
-﻿namespace FreeSpin.WebAPI.DTOs.Responses;
+﻿namespace FreeSpin.Application.Users.Models;
 
 public class CreateUserResponse
 {

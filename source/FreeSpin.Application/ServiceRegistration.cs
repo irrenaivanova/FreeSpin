@@ -1,5 +1,7 @@
-﻿using FreeSpin.Application.Common.Interfaces;
-using FreeSpin.Application.Services;
+﻿using FreeSpin.Application.Campaigns;
+using FreeSpin.Application.Common.Interfaces;
+using FreeSpin.Application.Spins;
+using FreeSpin.Application.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FreeSpin.Application;
@@ -10,6 +12,7 @@ public static class ServiceRegistration
 	{
 		services.AddScoped<IUserService, UserService>();
 		services.AddScoped<ICampaignService, CampaignService>();
+		services.AddScoped<ISpinService, SpinService>();
 
 		return services;
 	}

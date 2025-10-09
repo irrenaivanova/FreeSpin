@@ -19,6 +19,8 @@ public class UserCampaign : IAuditableEntity
 
 	public IList<Spin> Spins { get; set; }
 
+	public int SpinCount => Spins.Count;
+
 	public DateTime CreatedOn { get; set; }
 
 	public DateTime? ModifiedOn { get; set; }
