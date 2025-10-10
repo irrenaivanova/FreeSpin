@@ -22,7 +22,9 @@ public class UserServiceTests
 	public async Task CreateUserAsync_ShouldReturnFailure_WhenUserNameIsEmpty()
 	{
 		var request = new CreateUserRequest { UserName = "", Age = 25 };
+		
 		var result = await userService.CreateUserAsync(request);
+		
 		result.IsSuccess.Should().BeFalse();
 		result.ErrorType.Should().Be(Application.Common.ErrorType.Validation);
 		result.Error.Should().Contain("Username");
@@ -35,6 +37,7 @@ public class UserServiceTests
 	public async Task CreateUserAsync_ShouldReturnFailure_WhenAgeIsInvalid(int invalidAge)
 	{
 		var request = new CreateUserRequest { UserName = "Irena", Age = invalidAge };
+		
 		var result = await this.userService.CreateUserAsync(request);
 
 		result.IsSuccess.Should().BeFalse();
@@ -49,8 +52,8 @@ public class UserServiceTests
 		this.userRepositoryMock
 			.Setup(x => x.AllAsNoTracking())
 			.Returns(existingUsers);
-
 		var request = new CreateUserRequest { UserName = "Irena", Age = 25 };
+		
 		var result = await this.userService.CreateUserAsync(request);
 
 		result.IsSuccess.Should().BeFalse();
@@ -74,6 +77,7 @@ public class UserServiceTests
 			.ReturnsAsync(1);
 
 		var request = new CreateUserRequest { UserName = "Irena", Age = 25 };
+		
 		var result = await this.userService.CreateUserAsync(request);
 
 		result.IsSuccess.Should().BeTrue();
