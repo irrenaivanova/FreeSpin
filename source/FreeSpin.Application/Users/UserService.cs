@@ -22,7 +22,7 @@ namespace FreeSpin.Application.Users
                 return Result<CreateUserResponse>.Failure("Username must not be empty and less 100 characters", ErrorType.Validation);
             }
 
-            if (request.Age < 18 || request.Age >100)
+            if (request.Age < 18 || request.Age > 100)
             {
                 return Result<CreateUserResponse>.Failure("User must be at between 18 and 100 years old", ErrorType.Validation);
             }
