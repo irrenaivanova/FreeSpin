@@ -14,7 +14,7 @@ namespace FreeSpin.Application.Users
         {
             this.userRepository = userRepository;
         }
-
+        
         public async Task<Result<CreateUserResponse>> CreateUserAsync(CreateUserRequest request)
         {
             if (string.IsNullOrEmpty(request.UserName) || request.UserName.Length > 100)
@@ -22,9 +22,9 @@ namespace FreeSpin.Application.Users
                 return Result<CreateUserResponse>.Failure("Username must not be empty and less 100 characters", ErrorType.Validation);
             }
 
-            if (request.Age < 18)
+            if (request.Age < 18 || request.Age >100)
             {
-                return Result<CreateUserResponse>.Failure("User must be at least 18 years old", ErrorType.Validation);
+                return Result<CreateUserResponse>.Failure("User must be at between 18 and 100 years old", ErrorType.Validation);
             }
 
             if (userRepository.AllAsNoTracking().Select(x => x.UserName).Contains(request.UserName))

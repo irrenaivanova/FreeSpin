@@ -35,50 +35,51 @@ public class SpinService : ISpinService
 
 	public async Task<Result<SpinInfoResponse>> GetSpinInfo(int userId, int campaignId)
 	{
-		var user = this.userRepository.All().FirstOrDefault(x => x.Id == userId);
+		var user = userRepository.All().FirstOrDefault(x => x.Id == userId);
 		if (user == null)
 		{
 			return Result<SpinInfoResponse>.Failure("No user found", ErrorType.NotFound);
 		}
 
-		var campaign = this.campaignRepository.All().FirstOrDefault(x => x.Id == campaignId);
+		var campaign = campaignRepository.All().FirstOrDefault(x => x.Id == campaignId);
 		if (campaign == null)
 		{
 			return Result<SpinInfoResponse>.Failure("No campaign found", ErrorType.NotFound);
 		}
 
-		var userCampaign = this.userCampaignRepository.All()
+		var userCampaign = userCampaignRepository.All()
 			.FirstOrDefault(x => x.UserId == user.Id && x.CampaignId == campaign.Id);
 
 		var response = new SpinInfoResponse
 		{
 			MaxSpins = campaign.MaxSpins,
 			SpinUsage = userCampaign?.CurrentSpinCount ?? 0,
-		};
+			Message = !campaign.IsActive ? "The campaign is no longer active!" : string.Empty
+		}; 
 
 		return Result<SpinInfoResponse>.Success(response);
 	}
 
 	public async Task<Result<PerformSpinResponse>> PerformSpinAsync(SpinRequest request)
 	{
-		var user = this.userRepository.All().FirstOrDefault(x => x.Id == request.UserId);
+		var user = userRepository.All().FirstOrDefault(x => x.Id == request.UserId);
 		if (user == null)
 		{
 			return Result<PerformSpinResponse>.Failure("No user found", ErrorType.NotFound);
 		}
 
-		var campaign = this.campaignRepository.All().FirstOrDefault(x => x.Id == request.CampaignId);
+		var campaign = campaignRepository.All().FirstOrDefault(x => x.Id == request.CampaignId);
 		if (campaign == null)
 		{
 			return Result<PerformSpinResponse>.Failure("No campaign found", ErrorType.NotFound);
 		}
 
-		if(campaign.CreatedOn.AddHours(campaign.DurationInDays*24) < this.dateTime.UtcNow)
+		if (!campaign.IsActive)
 		{
 			return Result<PerformSpinResponse>.Failure("The campaign is no longer active.", ErrorType.Forbidden);
 		}
 
-		var userCampaign = this.userCampaignRepository.All()
+		var userCampaign = userCampaignRepository.All()
 			.FirstOrDefault(x => x.UserId == user.Id && x.CampaignId == campaign.Id);
 
 		if (userCampaign == null)
@@ -101,14 +102,14 @@ public class SpinService : ISpinService
 			Reward = RewardGenerator.GenerateReward(SpinMaxReward, SpinRewardOffset)
 		};
 
-		await this.spinRepository.AddAsync(spin);
+		await spinRepository.AddAsync(spin);
 		user.Balance += spin.Reward;
 		// this.userCampaignRepository.Update(userCampaign);
 		userCampaign.CurrentSpinCount++;
 
 		try
 		{
-			await this.unitOfWork.SaveChangesAsync();
+			await unitOfWork.SaveChangesAsync();
 		}
 		catch (OptimisticConcurrencyException ex)
 		{
@@ -119,7 +120,7 @@ public class SpinService : ISpinService
 				return Result<PerformSpinResponse>.Failure("Concurrent balance update detected. Retry.", ErrorType.Validation);
 		}
 
-		var spins = this.spinRepository.All()
+		var spins = spinRepository.All()
 			.Where(x => x.UserId == user.Id && x.CampaignId == campaign.Id)
 			.OrderBy(x => x.CreatedOn)
 			.ToList();

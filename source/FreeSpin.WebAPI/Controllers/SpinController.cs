@@ -33,7 +33,7 @@ public class SpinController : ControllerBase
 	[HttpGet]
 	public async Task<IActionResult> Get([FromQuery] int userId, [FromQuery] int campaignId)
 	{
-		var result = await this.spinService.GetSpinInfo(userId, campaignId);
+		var result =  await this.spinService.GetSpinInfo(userId, campaignId);
 
 		if (!result.IsSuccess)
 		{

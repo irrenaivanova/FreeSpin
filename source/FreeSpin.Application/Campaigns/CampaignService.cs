@@ -53,8 +53,8 @@ namespace FreeSpin.Application.Campaigns
 				Id = campaign.Id,
 				DurationInDays = campaign.DurationInDays,
 				MaxSpins = campaign.MaxSpins,
-				RemainingHours = (int)Math.Ceiling(
-                    (campaign.CreatedOn.AddHours(campaign.DurationInDays * 24) - this.dateTime.UtcNow).TotalHours)
+				RemainingHours = campaign.IsActive ? (int)Math.Ceiling(
+                    (campaign.CreatedOn.AddHours(campaign.DurationInDays * 24) - this.dateTime.UtcNow).TotalHours) : 0,
 			};
 
 			return Result<CampaignInfoResponse>.Success(response);
