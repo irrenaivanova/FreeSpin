@@ -22,7 +22,6 @@ using (var scope = app.Services.CreateScope())
 	await seeder.SeedAsync(dbContext, scope.ServiceProvider);
 }
 
-
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();

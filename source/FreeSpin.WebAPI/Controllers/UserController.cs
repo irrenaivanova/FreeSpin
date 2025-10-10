@@ -20,12 +20,6 @@ public class UserController : ControllerBase
 	public async Task<IActionResult> Create([FromBody] CreateUserRequest request)
 	{
 		var result = await this.userService.CreateUserAsync(request);
-		
-		if (!result.IsSuccess)
-		{
-			return result.ToActionResult();
-		}
-			
-		return Ok(result.Value);
+		return result.ToActionResult();
 	}
 }

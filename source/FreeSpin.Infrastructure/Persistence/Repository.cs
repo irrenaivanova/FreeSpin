@@ -1,6 +1,5 @@
 ﻿using FreeSpin.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace FreeSpin.Infrastructure.Persistence
 {

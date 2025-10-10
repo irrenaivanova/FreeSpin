@@ -104,7 +104,9 @@ public class SpinService : ISpinService
 
 		await spinRepository.AddAsync(spin);
 		user.Balance += spin.Reward;
+		
 		// this.userCampaignRepository.Update(userCampaign);
+		
 		userCampaign.CurrentSpinCount++;
 
 		try

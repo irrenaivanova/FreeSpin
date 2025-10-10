@@ -13,13 +13,13 @@ public class CampaignServiceTests
 	private readonly Mock<IRepository<Campaign>> campaignRepositoryMock;
 	private readonly Mock<IDateTime> dateTimeMock;
 	private readonly CampaignService campaignService;
+	
 	public CampaignServiceTests()
 	{
 		this.campaignRepositoryMock = new Mock<IRepository<Campaign>>();
 		this.dateTimeMock = new Mock<IDateTime>();
 		this.campaignService = new CampaignService(this.campaignRepositoryMock.Object, this.dateTimeMock.Object);
 	}
-
 
 	[Theory]
 	[InlineData(0)]

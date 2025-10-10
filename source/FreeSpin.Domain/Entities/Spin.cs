@@ -12,6 +12,8 @@ public class Spin : BaseModel<string>
 	public decimal Reward { get; set; }
 
 	public int UserId { get; set; }
+
 	public int CampaignId { get; set; }
+
 	public UserCampaign UserCampaign { get; set; } = default!;
 }

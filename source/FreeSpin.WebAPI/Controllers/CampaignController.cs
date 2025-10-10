@@ -20,23 +20,13 @@ public class CampaignController : ControllerBase
 	public async Task<IActionResult> Create([FromBody] CreateCampaignRequest request)
 	{
 		var result = await this.campaignService.CreateCampaignAsync(request);
-
-		if (!result.IsSuccess)
-			return result.ToActionResult();
-
-		return Ok(result.Value);
+		return result.ToActionResult();
 	}
 
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetCampaignById(int id)
 	{
 		var result = await this.campaignService.GetCampaignByIdAsync(id);
-
-		if (!result.IsSuccess)
-		{
-			return result.ToActionResult();
-		}
-
-		return Ok(result.Value);
+		return result.ToActionResult();
 	}
 }

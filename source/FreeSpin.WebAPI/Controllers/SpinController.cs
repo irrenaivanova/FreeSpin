@@ -21,25 +21,13 @@ public class SpinController : ControllerBase
 	public async Task<IActionResult> Create([FromBody] SpinRequest request)
 	{
 		var result = await this.spinService.PerformSpinAsync(request);
-
-		if (!result.IsSuccess)
-		{
-			return result.ToActionResult();
-		}
-
-		return Ok(result.Value);
+		return result.ToActionResult();
 	}
 
 	[HttpGet]
 	public async Task<IActionResult> Get([FromQuery] int userId, [FromQuery] int campaignId)
 	{
 		var result =  await this.spinService.GetSpinInfo(userId, campaignId);
-
-		if (!result.IsSuccess)
-		{
-			return result.ToActionResult();
-		}
-
-		return Ok(result.Value);
+		return result.ToActionResult();
 	}
 }
